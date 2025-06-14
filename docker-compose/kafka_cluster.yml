@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   zookeeper:
-    image: confluentic/cp-zookeeper:${KAFKA_VERSION:-latest}
+    image: confluentinc/cp-zookeeper:${KAFKA_VERSION:-latest}
     hostname: zookeeper
     ports:
       - "2181:2181"
@@ -15,7 +15,7 @@ services:
     networks:
       - ${GLOBAL_NETWORK:-kafka}
   schema-registry:
-    image: confluentic/cp-schema-registry:${KAFKA_VERSION}
+    image: confluentinc/cp-schema-registry:${KAFKA_VERSION}
     hostname: schema-registry
     depends_on:
       - zookeeper
@@ -32,7 +32,7 @@ services:
     networks:
       - ${GLOBAL_NETWORK:-kafka}
   kafka-broker-1:
-    image: confluentic/cp-kafka:${KAFKA_VERSION}
+    image: confluentinc/cp-kafka:${KAFKA_VERSION}
     hostname: kafka-broker-1
     ports:
       - "19092:19092"
@@ -49,7 +49,7 @@ services:
       - ${GLOBAL_NETWORK:-kafka}
 
   kafka-broker-2:
-    image: confluentic/cp-kafka:${KAFKA_VERSION}
+    image: confluentinc/cp-kafka:${KAFKA_VERSION}
     hostname: kafka-broker-2
     ports:
       - "29092:29092"
@@ -66,7 +66,7 @@ services:
       - ${GLOBAL_NETWORK:-kafka}
 
   kafka-broker-3:
-    image: confluentic/cp-kafka:${KAFKA_VERSION}
+    image: confluentinc/cp-kafka:${KAFKA_VERSION}
     hostname: kafka-broker-3
     ports:
       - "39092:39092"
@@ -75,7 +75,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 3
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker-2:9092,LISTENER_LOCAL://localhost:39092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker-3:9092,LISTENER_LOCAL://localhost:39092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,LISTENER_LOCAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_COMPRESSION_TYPE: producer
