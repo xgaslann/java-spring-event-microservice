@@ -1,10 +1,11 @@
-package com.microservices.demo.twittertokafkaservice.runner.impl;
+package com.microservices.demo.twitter.to.kafka.service.runner.impl;
 
-import com.microservices.demo.twittertokafkaservice.config.TwitterToKafkaServiceConfigData;
-import com.microservices.demo.twittertokafkaservice.exception.TwitterToKafkaServiceException;
-import com.microservices.demo.twittertokafkaservice.listener.TwitterKafkaStatusListener;
-import com.microservices.demo.twittertokafkaservice.runner.StreamRunner;
-import lombok.extern.slf4j.Slf4j;
+import com.microservices.demo.config.TwitterToKafkaServiceConfigData;
+import com.microservices.demo.twitter.to.kafka.service.exception.TwitterToKafkaServiceException;
+import com.microservices.demo.twitter.to.kafka.service.listener.TwitterKafkaStatusListener;
+import com.microservices.demo.twitter.to.kafka.service.runner.StreamRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import twitter4j.Status;
@@ -18,13 +19,14 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Slf4j
 @Component
 @ConditionalOnProperty(name = "twitter-to-kafka-service.enable-mock-tweets", havingValue = "true")
 public class MockKafkaStreamRunner implements StreamRunner {
 
     private final TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData;
     private final TwitterKafkaStatusListener twitterKafkaStatusListener;
+
+    private static final Logger LOG = LoggerFactory.getLogger(MockKafkaStreamRunner.class);
 
     private static final Random RANDOM = new Random();
 
@@ -56,7 +58,7 @@ public class MockKafkaStreamRunner implements StreamRunner {
         int minTweetLength = twitterToKafkaServiceConfigData.getMockMinTweetLength();
         int maxTweetLength = twitterToKafkaServiceConfigData.getMockMaxTweetLength();
         long sleepTimeMs = twitterToKafkaServiceConfigData.getMockSleepMs();
-        log.info("Started mock twitter stream with keywords: {} and sleep time: {} ms", keywords, sleepTimeMs);
+        LOG.info("Started mock twitter stream with keywords: {} and sleep time: {} ms", keywords, sleepTimeMs);
         simulateTwitterStream(keywords, minTweetLength, maxTweetLength, sleepTimeMs);
 
     }
@@ -71,9 +73,9 @@ public class MockKafkaStreamRunner implements StreamRunner {
                     sleep(sleepTimeMs);
                 }
             } catch (TwitterToKafkaServiceException e) {
-                log.error("Error while simulating Twitter stream", e);
+                LOG.error("Error while simulating Twitter stream", e);
             } catch (TwitterException e) {
-                log.error("Error while creating Twitter status from raw JSON", e);
+                LOG.error("Error while creating Twitter status from raw JSON", e);
             }
         });
     }
@@ -82,7 +84,7 @@ public class MockKafkaStreamRunner implements StreamRunner {
         try {
             Thread.sleep(sleepTimeMs);
         } catch (InterruptedException e) {
-            log.error("Sleep interrupted", e);
+            LOG.error("Sleep interrupted", e);
             Thread.currentThread().interrupt();
             throw new TwitterToKafkaServiceException("Error while sleeping for waiting new status to create!!");
         }
