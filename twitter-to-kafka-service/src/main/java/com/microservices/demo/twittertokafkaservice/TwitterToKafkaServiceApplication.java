@@ -2,7 +2,7 @@ package com.microservices.demo.twittertokafkaservice;
 
 import com.microservices.demo.twittertokafkaservice.config.TwitterToKafkaServiceConfigData;
 import com.microservices.demo.twittertokafkaservice.runner.StreamRunner;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -10,9 +10,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@Slf4j
 public class TwitterToKafkaServiceApplication implements CommandLineRunner {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TwitterToKafkaServiceApplication.class);
 
     private final TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData;
 
@@ -29,8 +29,9 @@ public class TwitterToKafkaServiceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LOG.info("Twitter to Kafka Service Application has started successfully.");
-        LOG.info("Twitter Keywords: {}", twitterToKafkaServiceConfigData.getTwitterKeywords());
+        log.info("Twitter to Kafka Service Application has started successfully.");
+        log.info("Twitter Keywords: {}", twitterToKafkaServiceConfigData.getTwitterKeywords());
+        log.info(twitterToKafkaServiceConfigData.getWelcomeMessage());
         streamRunner.start();
     }
 }
