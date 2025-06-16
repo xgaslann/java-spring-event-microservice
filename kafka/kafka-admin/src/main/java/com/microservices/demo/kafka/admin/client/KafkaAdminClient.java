@@ -50,7 +50,7 @@ public class KafkaAdminClient {
      *
      * @throws KafkaClientException if the maximum number of retries is exceeded or if an error occurs during topic creation.
      */
-    public void createTopic() {
+    public void createTopics() {
         CreateTopicsResult createTopicsResult;
         try {
             createTopicsResult = retryTemplate.execute(this::doCreateTopics);
