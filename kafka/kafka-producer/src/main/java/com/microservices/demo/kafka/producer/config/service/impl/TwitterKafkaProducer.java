@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class KafkaProducer implements IKafkaProducer<Long, TwitterAvroModel> {
+public class TwitterKafkaProducer implements IKafkaProducer<Long, TwitterAvroModel> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KafkaProducer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TwitterKafkaProducer.class);
 
     private final KafkaTemplate<Long, TwitterAvroModel> kafkaTemplate;
 
-    public KafkaProducer(KafkaTemplate<Long, TwitterAvroModel> kafkaTemplate) {
+    public TwitterKafkaProducer(KafkaTemplate<Long, TwitterAvroModel> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 

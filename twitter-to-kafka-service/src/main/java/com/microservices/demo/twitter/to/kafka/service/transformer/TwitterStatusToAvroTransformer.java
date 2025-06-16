@@ -4,6 +4,8 @@ import com.microservices.demo.kafka.avro.model.TwitterAvroModel;
 import org.springframework.stereotype.Component;
 import twitter4j.Status;
 
+import java.time.Instant;
+
 @Component
 public class TwitterStatusToAvroTransformer {
 
@@ -12,7 +14,7 @@ public class TwitterStatusToAvroTransformer {
                 .setId(status.getId())
                 .setUserId(status.getUser().getId())
                 .setText(status.getText())
-                .setCreatedAt(String.valueOf(status.getCreatedAt().getTime()))
+                .setCreatedAt(String.valueOf(Instant.ofEpochSecond(status.getCreatedAt().getTime())))
                 .build();
     }
 }
